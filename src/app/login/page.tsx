@@ -40,8 +40,7 @@ export default function LoginPage() {
       const session = await sessionRes.json();
 
       if (session?.user) {
-        router.push('/dashboard');
-        router.refresh();
+        window.location.href = '/dashboard';
         return;
       } else {
         setError('Email hoặc mật khẩu không đúng.');
