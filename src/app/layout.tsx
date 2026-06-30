@@ -4,7 +4,7 @@ import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Analytics Hub — Traffic & Revenue Dashboard',
+    default: 'Lemon Traffic',
     template: '%s | Analytics Hub',
   },
   description:

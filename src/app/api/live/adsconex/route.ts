@@ -73,6 +73,16 @@ export async function GET(req: NextRequest) {
       res = await fetch(url, { headers: { ...hdrs, 'Cookie': `access_token=${newToken}`, 'Authorization': `Bearer ${newToken}` }, signal: AbortSignal.timeout(10000) });
     }
 
+    // Check if response is actually JSON
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return NextResponse.json({
+        configured: true,
+        error: 'TOKEN_INVALID',
+        message: 'Token Adsconex hết hạn. Cần lấy token mới từ plan.blogb.io (DevTools → Application → Cookies → access_token)',
+      }, { status: 401 });
+    }
+
     const raw = await res.json();
     console.log('[Adsconex] status:', res.status, '| preset:', preset);
 
