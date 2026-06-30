@@ -18,17 +18,22 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await signIn('credentials', { email, password, redirect: false });
-      if (res?.error) {
-        setError('Email hoặc mật khẩu không đúng. Vui lòng thử lại.');
-        setLoading(false);
-        return;
+      const res = await Promise.race([
+        signIn('credentials', { email, password, redirect: false }),
+        new Promise<null>((_, reject) => setTimeout(() => reject(new Error('timeout')), 10000)),
+      ]);
+      if (!res || res.error) {
+        setError('Email hoặc mật khẩu không đúng.');
+      } else {
+        router.push('/dashboard');
+        return; // don't reset loading — page is navigating
       }
-      router.push('/dashboard');
-    } catch {
-      setError('Đã xảy ra lỗi. Vui lòng thử lại.');
-      setLoading(false);
+    } catch (err) {
+      setError(err instanceof Error && err.message === 'timeout'
+        ? 'Kết nối quá lâu. Kiểm tra lại cấu hình server.'
+        : 'Đã xảy ra lỗi. Vui lòng thử lại.');
     }
+    setLoading(false);
   };
 
   return (
@@ -51,8 +56,8 @@ export default function LoginPage() {
                 <BarChart2 size={20} color="white" />
               </div>
               <div>
-                <div style={{ fontWeight: 900, fontSize: 16, color: '#111' }}>Analytics Hub</div>
-                <div style={{ fontSize: 11, color: '#999' }}>Trung tâm phân tích</div>
+                <div style={{ fontWeight: 900, fontSize: 16, color: '#111' }}>Lemon</div>
+                <div style={{ fontSize: 11, color: '#999' }}>Traffic</div>
               </div>
             </div>
           </div>
@@ -65,7 +70,7 @@ export default function LoginPage() {
             Một nơi.<br />Toàn bộ dữ liệu.
           </h1>
           <p style={{ fontSize: 16, color: '#555', lineHeight: 1.7, maxWidth: 340 }}>
-            Tổng hợp Google Analytics 4 và Adsconex vào một dashboard hiện đại. Theo dõi traffic, doanh thu và hiệu suất theo thời gian thực.
+
           </p>
 
           <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 14 }}>
