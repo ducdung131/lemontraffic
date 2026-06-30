@@ -101,7 +101,7 @@ export default function LoginPage() {
             <h2 style={{ fontSize: 24, fontWeight: 900, color: '#111', marginBottom: 6 }}>
               Đăng nhập
             </h2>
-            <p style={{ fontSize: 14, color: '#888' }}>Analytics Hub — Trung tâm phân tích</p>
+            <p style={{ fontSize: 14, color: '#888' }}></p>
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -115,7 +115,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                placeholder="admin@example.com"
+                placeholder=""
                 autoComplete="email"
                 style={{ width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: 14, fontSize: 14, outline: 'none' }}
                 onFocus={e => { e.target.style.borderColor = '#ff9f43'; e.target.style.boxShadow = '0 0 0 3px rgba(255,159,67,0.15)'; }}
@@ -182,7 +182,7 @@ export default function LoginPage() {
           </form>
 
           <p style={{ textAlign: 'center', fontSize: 12, color: '#aaa', marginTop: 20 }}>
-            Thông tin đăng nhập được cấu hình qua biến môi trường.
+
           </p>
         </div>
       </div>
